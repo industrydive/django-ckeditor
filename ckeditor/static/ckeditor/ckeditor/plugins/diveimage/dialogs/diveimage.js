@@ -298,6 +298,8 @@
 				this.originalElement = editor.document.createElement('img');
 				this.originalElement.setAttribute('alt', '');
 				this.originalElement.setCustomData('isReady', 'false');
+				var new_credit = this.getContentElement('advanced', 'dive_credit').getValue();
+
 
 				if (link) {
 					this.linkElement = link;
@@ -580,10 +582,39 @@
 						}
 					},
 					{ id: 'show_dive_id',
-						type: 'html',
+ 						type: 'html',
 						html: ''
 					},
-					{ type: 'hbox',
+                    { id: 'image_expandable',
+                      type: 'checkbox',
+                      label: 'Expandable',
+                      default: '', // Uncheck by default
+                      style: 'vertical-align:bottom;',
+                      setup: function(type, element) {
+                          var className = 'is_expandable';
+                          if (type == IMAGE) {
+                          	is_expandable = element.hasClass(className);
+                            this.setValue(is_expandable);
+                          }
+                      },
+                      commit: function(type, element) {
+                        var className = 'is_expandable';
+                        if (type == IMAGE) {
+                            is_checked = this.getValue();
+                          	is_expandable = element.hasClass(className);
+
+                            // Made expandable but class doesn't exist
+                            if (is_checked && !is_expandable) {
+                                element.addClass(className);
+                            }
+                            // Value unchecked but class exists
+                            else if (!is_checked && is_expandable) {
+                                element.removeClass(className);
+                            }
+                        }
+					  }
+                    },
+ 					{ type: 'hbox',
 						children: [{
 							id: 'basic',
 							type: 'vbox',
