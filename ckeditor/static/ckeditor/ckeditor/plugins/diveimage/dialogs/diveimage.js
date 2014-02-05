@@ -292,13 +292,13 @@
 				CKEDITOR.document.getById(imagePreviewLoaderId).setStyle('display', 'none');
 				// Create the preview before setup the dialog contents.
 				previewPreloader = new CKEDITOR.dom.element('img', editor.document);
-			this.preview = CKEDITOR.document.getById(previewImageId);
+				this.preview = CKEDITOR.document.getById(previewImageId);
 
 				// Copy of the image
 				this.originalElement = editor.document.createElement('img');
 				this.originalElement.setAttribute('alt', '');
 				this.originalElement.setCustomData('isReady', 'false');
-			var new_credit = this.getContentElement('advanced', 'dive_credit').getValue();
+				var new_credit = this.getContentElement('advanced', 'dive_credit').getValue();
 
 
 				if (link) {
@@ -582,7 +582,7 @@
 						}
 					},
 					{ id: 'show_dive_id',
-						type: 'html',
+ 						type: 'html',
 						html: ''
 					},
                     { id: 'image_expandable',
@@ -591,25 +591,26 @@
                       default: '', // Uncheck by default
                       style: 'vertical-align:bottom;',
                       setup: function(type, element) {
-                          var className = 'is_expandable', is_expandable;
+                          var className = 'is_expandable';
                           if (type == IMAGE) {
-                            is_expandable = element.getAttribute('class') && element.getAttribute('class').indexOf(className) != -1;
+                          	is_expandable = element.hasClass(className);
                             this.setValue(is_expandable);
                           }
                       },
                       commit: function(type, element) {
-                        var className = 'is_expandable', is_expandable;
+                        var className = 'is_expandable';
                         if (type == IMAGE) {
                             is_checked = this.getValue();
-                            is_expandable = element.getAttribute('class') && element.getAttribute('class').indexOf(className) != -1;
-                            // Made expandable but class doesn't exist 
+                          	is_expandable = element.hasClass(className);
+
+                            // Made expandable but class doesn't exist
                             if (is_checked && !is_expandable) {
                                 element.addClass(className);
                             }
                             // Value unchecked but class exists
                             else if (!is_checked && is_expandable) {
                                 element.removeClass(className);
-                            } 
+                            }
                         }
 					  }
                     },
