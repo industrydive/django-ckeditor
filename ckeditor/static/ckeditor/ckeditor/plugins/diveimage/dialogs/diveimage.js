@@ -1234,8 +1234,8 @@
 
 								// handle expandable options
 								d.getContentElement('advanced', 'dive_img_full_url').setValue(json_obj.fullUrl);
-								// d.getContentElement('advanced', 'dive_expandable_location').setValue(json_obj.fullUrl);
-								// d.getContentElement('advanced', 'dive_expandable_choices').setValue('dive_expand_uncropped');
+								d.getContentElement('advanced', 'dive_expandable_location').setValue(json_obj.fullUrl);
+								d.getContentElement('advanced', 'dive_expandable_choices').setValue('dive_expand_uncropped');
 
 								//need to set this AFTER changing the Url, because the in the
 								// Url onChange the id is wiped
