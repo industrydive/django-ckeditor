@@ -1226,6 +1226,11 @@
 								var json_obj = JSON.parse(this.getValue());
 								var d = this.getDialog();
 
+ 								// set expandable option based on the image data
+								var expandable_checkbox = d.getContentElement('info', 'image_expandable');
+								expandable_checkbox.setValue(json_obj.expandable);
+
+
 								if ( json_obj.useCropped ) {
 									d.getContentElement('info', 'txtUrl').setValue(json_obj.croppedUrl);
 								} else {
