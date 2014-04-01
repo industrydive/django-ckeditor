@@ -10,7 +10,7 @@
 (function() {
 
 	CKEDITOR.plugins.add( 'diveimage', {
-		requires: 'dialog',
+		requires: 'dialog,ajax',
 		lang: 'en',
 		icons: 'image', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -25,11 +25,11 @@
 			// Register the dialog.
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/diveimage.js' );
 
-			var allowed = 'img[alt,!src,data-imagemodel]{border-style,border-width,float,height,margin,margin-bottom,margin-left,margin-right,margin-top,width}',
+			var allowed = 'img[alt,!src,data-imagemodel,data-expandable-url,data-expandable-type]{border-style,border-width,float,height,margin,margin-bottom,margin-left,margin-right,margin-top,width}(is_expandable)',
 				required = 'img[alt,src]';
 
 			if ( CKEDITOR.dialog.isTabEnabled( editor, pluginName, 'advanced' ) )
-				allowed = 'img[alt,dir,id,lang,longdesc,!src,title,data-imagemodel]{*}(*)';
+				allowed = 'img[alt,dir,id,lang,longdesc,!src,title,data-imagemodel,data-expandable-url,data-expandable-type]{*}(*)';
 
 			// Register the command.
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
