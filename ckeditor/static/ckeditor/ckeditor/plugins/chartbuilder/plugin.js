@@ -1,11 +1,9 @@
 CKEDITOR.plugins.add( 'chartbuilder', {
     icons: 'chartbuilder',
     init: function( editor ) {
-        alert('y');
         editor.addCommand( 'launchChartbuilder', {
             exec: function( editor ) {
-                window.open('/admin/diveimage/chartbuilder/'
-                ,'_blank');
+                window.open('.','_blank');
             }
         });
 
