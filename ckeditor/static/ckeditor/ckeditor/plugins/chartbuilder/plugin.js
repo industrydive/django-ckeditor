@@ -3,7 +3,7 @@ CKEDITOR.plugins.add( 'chartbuilder', {
     init: function( editor ) {
         editor.addCommand( 'launchChartbuilder', {
             exec: function( editor ) {
-                window.open('.','_blank');
+                window.open(CKEDITOR.config.dive_open_chartbuilder_url);
             }
         });
 
