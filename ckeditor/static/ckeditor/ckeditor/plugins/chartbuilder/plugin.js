@@ -1,11 +1,10 @@
 CKEDITOR.plugins.add( 'chartbuilder', {
     icons: 'chartbuilder',
+    requires: 'dialog,diveimage,figurebox',
     init: function( editor ) {
-        editor.addCommand( 'launchChartbuilder', {
-            exec: function( editor ) {
-                window.open(CKEDITOR.config.dive_open_chartbuilder_url);
-            }
-        });
+        CKEDITOR.dialog.add( 'chartbuilder', this.path + 'dialogs/chartbuilder.js' );
+
+        editor.addCommand( 'launchChartbuilder', new CKEDITOR.dialogCommand( 'chartbuilder' ));
 
         editor.ui.addButton('Chartbuilder', {
             label: 'Launch Chartbuilder',
@@ -14,3 +13,10 @@ CKEDITOR.plugins.add( 'chartbuilder', {
         });
     }
 });
+function insert_diveimage_figurebox(editor, json) {
+    var extra_attrs = 'data-imagemodel="' + json.id + '" ';
+    var attribution = parseJsonAttribution(json);
+    // figurebox_template(img_src, attribution, caption, img_attrs)
+    var figurebox_html = figurebox_template(json.full_url, attribution, '', extra_attrs);
+    editor.insertHtml(figurebox_html);
+}
