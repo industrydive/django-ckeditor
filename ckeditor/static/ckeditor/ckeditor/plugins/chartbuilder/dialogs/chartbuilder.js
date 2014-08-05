@@ -17,36 +17,18 @@ CKEDITOR.dialog.add('chartbuilder', function(editor){
 						name = "";
 
 						// matches GRAPPELLI CUSTOM: changed width
-						var win = window.open(url, name, 'resizable=yes,scrollbars=yes');
+						var win = window.open(url, name, 'resizable=yes,scrollbars=yes,height=650,width=1080');
 						// var win = window.open(url, name, 'height=500,width=980,resizable=yes,scrollbars=yes');
 						win.focus();
 						// this.getDialog().getContentElement('main', 'chartbuilder_img_data').
 						return false;
 					},
 				},
-				// { id: 'insert_button',
-				// 	type: 'button',
-				// 	style: 'display:inline-block;margin-top:10px;',
-				// 	align: 'center',
-				// 	label: "Insert Chart",
-				// 	onClick: function() {
-				// 		// url = CKEDITOR.config.dive_open_chartbuilder_url;
-				// 		// name = "";
-
-				// 		// // matches GRAPPELLI CUSTOM: changed width
-				// 		// var win = window.open(url, name, 'resizable=yes,scrollbars=yes');
-				// 		// // var win = window.open(url, name, 'height=500,width=980,resizable=yes,scrollbars=yes');
-				// 		// win.focus();
-				// 		// return false;
-				// 	},
-				// }
 				{ id: 'chartbuilder_img_data',
 					type: 'textarea',
 					inputStyle: 'display:none;',
 					hidden: true,
 					onChange: function(evt){
-
-
 						var json_obj = JSON.parse(this.getValue());
 						var img_url = json_obj.thumb_url;
 						// var d = this.getDialog();
@@ -67,6 +49,7 @@ CKEDITOR.dialog.add('chartbuilder', function(editor){
 					type: 'button',
 					align: 'center',
 					label: 'Insert Chart',
+					style: 'display:none',
 					onClick: function(evt) {
 						this.insertChart(true);
 					},
@@ -77,7 +60,10 @@ CKEDITOR.dialog.add('chartbuilder', function(editor){
 						var json_obj = JSON.parse(img_data);
 						insert_diveimage_figurebox(current_editor, json_obj);
 						if (close) {
-							
+							// empty data textarea
+							var ie = d.getContentElement('main', 'chartbuilder_img_data').getInputElement();
+							ie.setText('');
+
 							d.getButton("ok").click();
 						};
 					}

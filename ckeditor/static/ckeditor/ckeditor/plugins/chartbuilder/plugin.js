@@ -4,6 +4,11 @@ CKEDITOR.plugins.add( 'chartbuilder', {
     init: function( editor ) {
         CKEDITOR.dialog.add( 'chartbuilder', this.path + 'dialogs/chartbuilder.js' );
 
+        // editor.addCommand( 'launchChartbuilder', {
+        //     exec: function( editor ) {
+        //         window.open(CKEDITOR.config.dive_open_chartbuilder_url);
+        //     }
+        // });
         editor.addCommand( 'launchChartbuilder', new CKEDITOR.dialogCommand( 'chartbuilder' ));
 
         editor.ui.addButton('Chartbuilder', {
@@ -13,6 +18,7 @@ CKEDITOR.plugins.add( 'chartbuilder', {
         });
     }
 });
+
 function insert_diveimage_figurebox(editor, json) {
     var extra_attrs = 'data-imagemodel="' + json.id + '" ';
     var attribution = parseJsonAttribution(json);

@@ -1,3 +1,7 @@
+function diveimage_figure(editor, img_src, img_link, diveimage_id, attribution_html, img_class, chartbuilder) {
+
+}
+
 function figurebox_template(img_src, attribution, caption, img_attrs) {
 	img_attrs = img_attrs || false;
 	var img = '<img src="' + img_src +'" ';
@@ -24,7 +28,6 @@ CKEDITOR.plugins.add( 'figurebox', {
 
     init: function( editor ) {
     	CKEDITOR.dialog.add('figurebox', this.path + 'dialogs/figurebox.js');
-
 		var initial_img_src = this.path + 'resources/wsiwyg_image_replacement.png';
 		var initial_template = figurebox_template(initial_img_src, 'Image Source', 'Optional Caption', false);
 
@@ -105,3 +108,7 @@ CKEDITOR.plugins.add( 'figurebox', {
 
     }
 } );
+
+
+
+
