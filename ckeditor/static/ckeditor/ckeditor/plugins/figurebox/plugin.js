@@ -29,7 +29,7 @@ CKEDITOR.plugins.add( 'figurebox', {
     init: function( editor ) {
     	CKEDITOR.dialog.add('figurebox', this.path + 'dialogs/figurebox.js');
 		var initial_img_src = this.path + 'resources/wsiwyg_image_replacement.png';
-		var initial_template = figurebox_template(initial_img_src, 'Image Source', 'Optional Caption', false);
+		var initial_template = figurebox_template(initial_img_src, 'Image Source', 'Optional Caption', 'style="max-width:100%;" ');
 
 		if ( editor.addMenuItems ) {
 			editor.addMenuItems({

@@ -20,9 +20,9 @@ CKEDITOR.plugins.add( 'chartbuilder', {
 });
 
 function insert_diveimage_figurebox(editor, json) {
-    var extra_attrs = 'data-imagemodel="' + json.id + '" ';
+    var extra_attrs = 'style="max-width:100%;" data-imagemodel="' + json.id + '" ';
     var attribution = parseJsonAttribution(json);
     // figurebox_template(img_src, attribution, caption, img_attrs)
-    var figurebox_html = figurebox_template(json.full_url, attribution, '', extra_attrs);
+    var figurebox_html = figurebox_template(json.fullUrl, attribution, '', extra_attrs);
     editor.insertHtml(figurebox_html);
 }

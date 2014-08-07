@@ -2,14 +2,14 @@ CKEDITOR.dialog.add('chartbuilder', function(editor){
 	var current_editor = editor;
 	return {
 		title: "Insert Chart",
-		minWidth: 420,
-		minHeight: 360,
+		minWidth: 250,
+		minHeight: 150,
 		contents: [
 			{ id: 'main',
 				elements: [{ 
 					id: 'create_button',
 					type: 'button',
-					style: 'display:block;margin-top:10px;width:100%;font-size:200%;min-height:3em;',
+					style: 'display:block;margin-top:10px;width:100%;line-height:300%;min-height:3em;',
 					align: 'center',
 					label: "Create Chart",
 					onClick: function() {
@@ -47,11 +47,17 @@ CKEDITOR.dialog.add('chartbuilder', function(editor){
 				// },
 				{ id: 'chartbuilder_insert',
 					type: 'button',
+					style: 'display:block;margin-top:10px;width:100%;min-height:1.3em;',
 					align: 'center',
 					label: 'Insert Chart',
-					style: 'display:none',
 					onClick: function(evt) {
-						this.insertChart(true);
+						url = CKEDITOR.config.dive_open_thumb_url;
+						name = "";
+
+						// matches GRAPPELLI CUSTOM: changed width
+						var win = window.open(url, name, 'height=500,width=980,resizable=yes,scrollbars=yes');
+						win.focus();
+						return false;
 					},
 					insertChart: function(close) {
 						if (typeof(close) == "undefined") { close = true; };
