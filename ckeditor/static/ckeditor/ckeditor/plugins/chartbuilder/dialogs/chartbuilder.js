@@ -11,7 +11,7 @@ CKEDITOR.dialog.add('chartbuilder', function(editor){
 					type: 'button',
 					style: 'display:block;margin-top:10px;width:100%;line-height:300%;min-height:3em;',
 					align: 'center',
-					label: "Create Chart",
+					label: "Create New Chart",
 					onClick: function() {
 						url = CKEDITOR.config.dive_open_chartbuilder_url;
 						name = "";
@@ -49,7 +49,7 @@ CKEDITOR.dialog.add('chartbuilder', function(editor){
 					type: 'button',
 					style: 'display:block;margin-top:10px;width:100%;min-height:1.3em;',
 					align: 'center',
-					label: 'Insert Chart',
+					label: 'Insert Existing Chart',
 					onClick: function(evt) {
 						url = CKEDITOR.config.dive_open_thumb_url;
 						name = "";

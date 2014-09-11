@@ -528,9 +528,9 @@
 							type: 'html',
 							id: 'htmlPreview',
 							style: 'width:95%;',
-							html: '<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none">' +
+							html: '<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none;">' +
 							'<div class="loading">&nbsp;</div></div>' +
-							'<img id="' + previewImageId + '" alt="" style="max-width:100%;"/>'
+							'<img id="' + previewImageId + '" alt="" style="max-width:100%;max-height:400px;"/>'
 							// html: '<div>' + CKEDITOR.tools.htmlEncode(editor.lang.common.preview) + '<br>' +
 							// 	 +
 							// 	'<div class="ImagePreviewBox"><table><tr><td>' +
