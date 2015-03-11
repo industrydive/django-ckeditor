@@ -9,7 +9,7 @@ def get_source_files():
 
 setup(
     name='django-ckeditor',
-    version='4.4.7',
+    version='4.4.7+dive-ckeditor-1',
     description='Django admin CKEditor integration.',
     long_description=open('README.rst', 'r').read() + open('AUTHORS.rst', 'r').read() + open('CHANGELOG.rst', 'r').read(),
     author='Shaun Sephton & Piotr Malinski',
@@ -18,6 +18,7 @@ setup(
     packages=find_packages(exclude=["*.demo"]),
     install_requires=[
         'Django',
+        'Pillow',
     ],
     include_package_data=True,
     classifiers=[

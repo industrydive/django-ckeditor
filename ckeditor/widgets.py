@@ -54,7 +54,15 @@ class CKEditorWidget(forms.Textarea):
             js += (jquery_url, )
         try:
             js += (
-                settings.STATIC_URL + 'ckeditor/ckeditor/ckeditor.js',
+            # try to grab the current version (as defined in __init__.py) and append it to the JS request as
+            # cache buster
+            from ckeditor import __version__
+            version = __version__
+        except:
+            version = "unknown"
+        try:
+            js = (
+                settings.STATIC_URL + "ckeditor/ckeditor/ckeditor.js?v=%s" % version,
                 settings.STATIC_URL + 'ckeditor/ckeditor-init.js',
             )
         except AttributeError:
