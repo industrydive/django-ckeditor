@@ -1,3 +1,25 @@
+function diveimage_figure(editor, img_src, img_link, diveimage_id, attribution_html, img_class, chartbuilder) {
+
+}
+
+function figurebox_template(img_src, attribution, caption, img_attrs) {
+	img_attrs = img_attrs || false;
+	var img = '<img src="' + img_src +'" ';
+	if (typeof(img_attrs) == 'string') {
+		img += img_attrs;
+	}
+	img += '/>';
+
+	return '<figure class="inside_story">' +
+				'<div class="figure_content">' + img + '</div>' +
+				'<figcaption class="inside_story_caption">' +
+					'<div class="caption_text">' + caption + '</div>' +
+					'<div class="source_text">' + attribution + '</div>' +
+					'<div class="clearfix"></div>' +
+				'</figcaption>' +
+			'</figure>';
+}
+
 CKEDITOR.plugins.add( 'figurebox', {
     // Miriam's Figure Box widget code.
     requires: 'widget,dialog',
@@ -6,7 +28,8 @@ CKEDITOR.plugins.add( 'figurebox', {
 
     init: function( editor ) {
     	CKEDITOR.dialog.add('figurebox', this.path + 'dialogs/figurebox.js');
-
+		var initial_img_src = this.path + 'resources/wsiwyg_image_replacement.png';
+		var initial_template = figurebox_template(initial_img_src, 'Image Source', 'Optional Caption', 'style="max-width:100%;" ');
 
 		if ( editor.addMenuItems ) {
 			editor.addMenuItems({
@@ -53,16 +76,7 @@ CKEDITOR.plugins.add( 'figurebox', {
 
 			// Define the template of a new Figure Box widget.
 			// The template will be used when creating new instances of the Figure Box widget.
-			template:
-				'<figure class="inside_story">' +
-					'<div class="figure_content">' +
-					'<img src="' + this.path + 'resources/wsiwyg_image_replacement.png" /></div>' +
-					'<figcaption class="inside_story_caption">' +
-						'<div class="caption_text">Optional Caption</div>' +
-						'<div class="source_text">Image Source</div>' +
-						'<div class="clearfix"></div>' +
-					'</figcaption>' +
-				'</figure>',
+			template: initial_template,
 
 			init: function() {
 				if ( this.element.hasClass('image_portrait') ) {
@@ -90,9 +104,11 @@ CKEDITOR.plugins.add( 'figurebox', {
 				// for all <div> elements with a "figurebox" class.
 				return element.name == 'figure' && element.hasClass( 'inside_story' );
 			}
-
-
 		} );
-    }
 
+    }
 } );
+
+
+
+

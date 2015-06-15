@@ -528,9 +528,9 @@
 							type: 'html',
 							id: 'htmlPreview',
 							style: 'width:95%;',
-							html: '<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none">' +
+							html: '<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none;">' +
 							'<div class="loading">&nbsp;</div></div>' +
-							'<img id="' + previewImageId + '" alt="" style="max-width:100%;"/>'
+							'<img id="' + previewImageId + '" alt="" style="max-width:100%;max-height:400px;"/>'
 							// html: '<div>' + CKEDITOR.tools.htmlEncode(editor.lang.common.preview) + '<br>' +
 							// 	 +
 							// 	'<div class="ImagePreviewBox"><table><tr><td>' +
@@ -958,30 +958,9 @@
 								var replaceCredit = d.getContentElement('advanced', 'dive_replace_credit').getValue();
 
 								if ( replaceCredit ) {
-									var new_credit = this.parseJsonAttribution(json_obj);
+									var new_credit = parseJsonAttribution(json_obj);
 									d.getContentElement('advanced', 'dive_credit').setValue(new_credit);
 								}
-							},
-							parseJsonAttribution: function(json_obj) {
-								var new_credit = '';
-
-								if ( json_obj.attribution.length ) {
-									new_credit = json_obj.attribution;
-								}
-
-								if ( json_obj.attributionUrl.length ) {
-									var start_link = '<a href="' + json_obj.attributionUrl + '">';
-									var link_text = new_credit.length ? new_credit : json_obj.attributionUrl
-									new_credit = start_link + link_text + '</a>';
-								}
-
-								// set this so that we will replace the current
-								// credit
-								if ( ! new_credit.length ) {
-									new_credit = ' ';
-								}
-
-								return new_credit;
 							}
 						},
 						{ id: 'dive_replace_credit',
@@ -1112,3 +1091,6 @@
 		return imageDialog(editor, 'diveimagebutton');
 	});
 })();
+
+
+

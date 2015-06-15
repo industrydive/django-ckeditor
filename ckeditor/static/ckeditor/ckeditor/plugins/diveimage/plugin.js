@@ -25,11 +25,11 @@
 			// Register the dialog.
 			CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/diveimage.js' );
 
-			var allowed = 'img[alt,!src,data-imagemodel,data-expandable-url,data-expandable-type]{border-style,border-width,float,height,margin,margin-bottom,margin-left,margin-right,margin-top,width}(is_expandable)',
+			var allowed = 'img[alt,!src,data-imagemodel,data-expandable-url,data-expandable-type]{border-style,border-width,float,height,margin,margin-bottom,margin-left,margin-right,margin-top,width,max-width}(is_expandable)',
 				required = 'img[alt,src]';
 
 			if ( CKEDITOR.dialog.isTabEnabled( editor, pluginName, 'advanced' ) )
-				allowed = 'img[alt,dir,id,lang,longdesc,!src,title,data-imagemodel,data-expandable-url,data-expandable-type]{*}(*)';
+				allowed = 'img[alt,dir,id,lang,longdesc,!src,title,data-imagemodel,data-expandable-url,data-expandable-type,max-width]{*}(*)';
 
 			// Register the command.
 			editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName, {
@@ -159,6 +159,29 @@
  * @member CKEDITOR.config
  */
 CKEDITOR.config.image_removeLinkByEmptyURL = true;
+
+parseJsonAttribution = function(json_obj) {
+	var new_credit = '';
+
+	if ( json_obj.attribution && json_obj.attribution.length ) {
+		new_credit = json_obj.attribution;
+	}
+
+	if ( json_obj.attributionUrl && json_obj.attributionUrl.length ) {
+		var start_link = '<a href="' + json_obj.attributionUrl + '">';
+		var link_text = new_credit.length ? new_credit : json_obj.attributionUrl
+		new_credit = start_link + link_text + '</a>';
+	}
+
+	// set this so that we will replace the current
+	// credit
+	if ( ! new_credit.length ) {
+		new_credit = ' ';
+	}
+
+	return new_credit;
+};
+
 
 /**
  * Padding text to set off the image in preview area.
