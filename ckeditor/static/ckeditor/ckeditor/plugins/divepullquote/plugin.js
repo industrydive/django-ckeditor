@@ -42,11 +42,11 @@ CKEDITOR.plugins.add( 'divepullquote', {
             });
 
 
-            editor.contextMenu.addListener( function( element ) {
-                if ( element.getAscendant( 'abbr', true ) ) {
-                    return { divepullquoteItem: CKEDITOR.TRISTATE_OFF };
-                }
-            });
+            // editor.contextMenu.addListener( function( element ) {
+            //     if ( element.getAscendant( 'abbr', true ) ) {
+            //         return { divepullquoteItem: CKEDITOR.TRISTATE_OFF };
+            //     }
+            // });
         }
 
     }

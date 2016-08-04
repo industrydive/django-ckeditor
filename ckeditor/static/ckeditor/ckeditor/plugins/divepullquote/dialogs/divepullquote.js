@@ -2,6 +2,7 @@
 
 
 CKEDITOR.dialog.add( 'divepullquoteDialog', function ( editor ) {
+    console.log(editor);
     return {
         title: 'Insert Pull Quote',
         minWidth: 400,
@@ -14,28 +15,86 @@ CKEDITOR.dialog.add( 'divepullquoteDialog', function ( editor ) {
 		        elements: [
 		            {
 		                type: 'text',
-		                id: 'abbr',
-		                label: 'Abbreviation',
-		                validate: CKEDITOR.dialog.validate.notEmpty( "Abbreviation field cannot be empty." ),
+		                id: 'quote',
+		                label: 'Quote',
+		                validate: CKEDITOR.dialog.validate.notEmpty( "Quote field cannot be empty." ),
 		            	setup: function( element ) {
-		            		this.setValue( element.getText() );
+		            		//get the child element of the pullquote div that corresponds to this dialog input
+		                    var childElement = getElementChild(element, 'quote');
+
+                            //set the value of the dialog input to the text value of the child element
+                            this.setValue( childElement.getText() );
 		            	},
 		            	commit: function( element ) {
-		            		element.setText( this.getValue() );
+                            //get the child element of the pullquote div that corresponds to this dialog input
+		                    var childElement = getElementChild(element, 'quote');
+
+                            //set the value of the child element equal to the dialog input
+                            childElement.setText( this.getValue() );
+		            	}
+		            },
+                    {
+		                type: 'text',
+		                id: 'headshot-img',
+		                label: 'Image source (ex. http://www.educationdive.com/user_media/diveimage/johndoe.jpg)',
+		                validate: CKEDITOR.dialog.validate.notEmpty( "Image source field cannot be empty." ),
+		            	setup: function( element ) {
+		            		//get the child element of the pullquote div that corresponds to this dialog input
+		                    var childElement = getElementChild(element, 'headshot-img');
+
+                            //set the value of the dialog input to the text value of the child element
+                            //this.setValue( childElement.getText() );
+		            	},
+		            	commit: function( element ) {
+                            //get the child element of the pullquote div that corresponds to this dialog input
+		                    var childElement = getElementChild(element, 'headshot-img');
+
+                            console.log(childElement);
+
+                            //set the value of the child element equal to the dialog input
+                            childElement.$.src = this.getValue();
 		            	}
 		            },
 		            {
 		                type: 'text',
+		                id: 'name',
+		                label: 'Speaker Name',
+		                validate: CKEDITOR.dialog.validate.notEmpty( "Speaker name field cannot be empty." ),
+		            	setup: function( element ) {
+		            		//get the child element of the pullquote div that corresponds to this dialog input
+		                    var childElement = getElementChild(element, 'name');
+
+                            //set the value of the dialog input to the text value of the child element
+                            this.setValue( childElement.getText() );
+		            	},
+		            	commit: function( element ) {
+                            //get the child element of the pullquote div that corresponds to this dialog input
+		                    var childElement = getElementChild(element, 'name');
+
+                            //set the value of the child element equal to the dialog input
+                            childElement.setText( this.getValue() );
+		            	}
+		            },
+                    {
+		                type: 'text',
 		                id: 'title',
-		                label: 'Explanation',
-		                validate: CKEDITOR.dialog.validate.notEmpty( "Explanation field cannot be empty." ),
-		                setup: function( element ) {
-		                	this.setValue( element.getAttribute( "class" ) );
-		                },
-		                commit: function( element ) {
-		                	element.setAttribute( "class", this.getValue() );
-		                }
-		            }
+		                label: 'Speaker Title',
+		                validate: CKEDITOR.dialog.validate.notEmpty( "Speaker title field cannot be empty." ),
+		            	setup: function( element ) {
+		            		//get the child element of the pullquote div that corresponds to this dialog input
+		                    var childElement = getElementChild(element, 'title');
+
+                            //set the value of the dialog input to the text value of the child element
+                            this.setValue( childElement.getText() );
+		            	},
+		            	commit: function( element ) {
+                            //get the child element of the pullquote div that corresponds to this dialog input
+		                    var childElement = getElementChild(element, 'title');
+
+                            //set the value of the child element equal to the dialog input
+                            childElement.setText( this.getValue() );
+		            	}
+		            },
 		        ]
 		    },
 		    // {
@@ -65,7 +124,6 @@ CKEDITOR.dialog.add( 'divepullquoteDialog', function ( editor ) {
         onShow: function() {
             var selection = editor.getSelection();
             var element = selection.getStartElement();
-			console.log(element);
 
             if ( element )
                 //CHANGE OLD
@@ -75,9 +133,7 @@ CKEDITOR.dialog.add( 'divepullquoteDialog', function ( editor ) {
 				//find the ascendant of the element where the cursor was that
 				//has a class == 'pullquote' and set it as the element
 				element = element.getAscendant(function(el){
-					console.log(el.$.nodeName);
 					if(el.$.nodeName == 'BODY'){
-						console.log('THIS IS THE BODY');
 						return el;
 					}
 					return el.hasClass('pullquote') == true;
@@ -87,7 +143,6 @@ CKEDITOR.dialog.add( 'divepullquoteDialog', function ( editor ) {
             if ( !element || element.hasClass('pullquote') != true ) {
                 //CHANGE OLD
             	//element = editor.document.createElement( 'abbr' );
-				console.log(this);
 
 				element = setUpPullquoteElement(editor);
 
@@ -105,13 +160,16 @@ CKEDITOR.dialog.add( 'divepullquoteDialog', function ( editor ) {
 		onOk: function() {
 			var dialog = this;
 			console.log(dialog);
-			var	pullquote = dialog.element;
-			console.log(pullquote)
+			var	element = dialog.element;
+			console.log(element);
 
-			dialog.commitContent( pullquote );
+            defaultImageCheck(editor, element);
+
+
+			dialog.commitContent( element );
 
 			if ( dialog.insertMode )
-				editor.insertElement( pullquote );
+				editor.insertElement( element );
 		}
 
     };
@@ -127,7 +185,7 @@ function setUpPullquoteElement(editor){
     var clearfix = new CKEDITOR.dom.element('div').addClass('clearfix').appendTo(element);
 
     var headshot = new CKEDITOR.dom.element('div').addClass('headshot')//.appendTo(element);
-    var img = new CKEDITOR.dom.element('img').appendTo(headshot);
+    new CKEDITOR.dom.element('img').addClass('headshot-img').appendTo(headshot);
     headshot.appendTo(element);
 
     var speakerDetails = new CKEDITOR.dom.element('div').addClass('speaker-details');
@@ -135,12 +193,57 @@ function setUpPullquoteElement(editor){
     var title = new CKEDITOR.dom.element('p').addClass('title').appendTo(speakerDetails);
     speakerDetails.appendTo(element);
 
-    console.log(element);
+    return element;
+    // console.log(element);
+    // var nameItem = getElementChild(element, 'name');
+    // console.log(nameItem);
+}
+
+/**
+ * Get a child node of a ckeditor node by the ckeditor DOM element's className
+ * Will search recursively until it finds a classname match, or return undefined
+ *
+ * Used to find the child of the main pullquote div that matches the text input
+ * into the plugin dialog.
+ *
+ *  see 'getChildren()' @ http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element
+ *  see http://docs.ckeditor.com/#!/api/CKEDITOR.dom.nodeList
+ *
+ * @param element    - a ckeditor parent node that you want to search
+ * @param childClass - the classname string of the child element
+ * @returns {object} - ckeditor node object
+ */
+function getElementChild(element, childClass){
+    var nodeList = element.getChildren();
+
+    for(var i = 0; i < nodeList.count(); i++){
+        var item = nodeList.getItem(i);
+
+        if(item.$.nodeName == '#text') break;
+
+        if(item.$.className == childClass){
+            return item;
+        }
+        else if(item.getChildCount() != 0){
+            item = getElementChild(item, childClass);
+            if(item){
+            	return item;
+            }
+        }
+    }
 }
 
 
-function getPullquoteChild()
-
+function defaultImageCheck(editor, element){
+    console.log(element);
+    var imgElement =  getElementChild(element, 'headshot-img');
+    console.log(imgElement);
+    console.log(imgElement.$.src);
+    if(!imgElement.$.src){
+        //console.log('IMage source was blank');
+        imgElement.$.src = editor.plugins.divepullquote.path + 'resources/wsiwyg_image_replacement_small.png';
+    }
+}
 
 // <div class="pullquote">
 //   <p class="quote">“By 2023, whites will comprise less than half of the U.S. population under age 30.”</p>
