@@ -4,6 +4,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
     icons: 'pullquote',
     init: function( editor ) {
         console.log(this);
+        console.log(editor);
         
         // editor.addCommand( 'doDivepullquote', {
         //     exec: function( editor ) {
