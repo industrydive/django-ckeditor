@@ -36,7 +36,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
         if ( editor.contextMenu ) {
             editor.addMenuGroup( 'divepullquoteGroup' );
             editor.addMenuItem( 'divepullquoteItem', {
-                label: 'Edit Abbreviation',
+                label: 'Edit pull quote',
                 icon: this.path + 'icons/pullquote.png',
                 command: 'doDivepullquote',
                 group: 'divepullquoteGroup'

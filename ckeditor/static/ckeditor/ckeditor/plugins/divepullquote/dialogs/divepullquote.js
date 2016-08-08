@@ -293,12 +293,8 @@ CKEDITOR.dialog.add( 'divepullquoteDialog', function ( editor ) {
 
 		onOk: function() {
 			var dialog = this;
-			console.log(dialog);
 			var	element = dialog.element;
-			console.log(element);
-
-            defaultImageCheck(editor, element);
-
+            //defaultImageCheck(editor, element);
 
 			dialog.commitContent( element );
 
@@ -367,7 +363,7 @@ function getElementChild(element, childClass){
     }
 }
 
-
+//TODO put in to check if there was no input so that a default image coulb be put in...probably wont be necessary
 function defaultImageCheck(editor, element){
     console.log(element);
     var imgElement =  getElementChild(element, 'headshot-img');
