@@ -51,8 +51,24 @@
 			editor.on( 'doubleclick', function( evt ) {
 				var element = evt.data.element;
 
-				if ( element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() )
+				console.log(evt);
+
+				console.log(editor.widgets.widgetHoldingFocusedEditable);
+				//var pullquoteCKelement = element.getAscendant('div').getAscendant('div').getAscendant('div');
+				//console.log(pullquoteCKelement);
+				//console.log( pullquoteCKelement.data());
+
+				//console.log(CKEDITOR.plugins);
+				//var widget = CKEDITOR.plugins.widget.repository.getByElement( evt.data.element );
+				//console.log(widget);
+				if(element.hasClass("pq-headshot-img")){
+					var widget = editor.widgets.widgetHoldingFocusedEditable;
+					return widget.fire( 'doubleclick', { element: evt.data.element } );
+				}
+				else if ( element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() ) {
+					console.log('dive image double click listener');
 					evt.data.dialog = 'diveimage';
+				}
 			});
 
 			// If the "menu" plugin is loaded, register the menu items.
