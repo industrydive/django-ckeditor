@@ -29,7 +29,10 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
 							this.setValue(widget.data.img_src);
 						},
 						commit: function( widget ) {
-							widget.setData('img_src', this.getValue());
+							console.log(widget.data);
+                            console.log(this.getValue());
+						    widget.setData('img_src', this.getValue());
+                            console.log(widget.data);
 						}
 					},
 					{

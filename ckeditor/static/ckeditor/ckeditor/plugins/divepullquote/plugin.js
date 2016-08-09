@@ -1,23 +1,11 @@
 CKEDITOR.plugins.add( 'divepullquote', {
     // Miriam's Figure Box widget code.
     requires: 'widget,dialog',
-    icons: 'pullquote',
+    icons: 'divepullquote',
 
 
     init: function( editor ) {
     	CKEDITOR.dialog.add('divepullquote', this.path + 'dialogs/divepullquote.js');
-		console.log(this.path);
-
-		//Todo: context menu? not sure if i need it if no dialog---can wait
-		// if ( editor.addMenuItems ) {
-		// 	editor.addMenuItems({
-		// 		divepullquote: {
-		// 			label: "Change pull quote",
-		// 			command: 'divepullquote',
-		// 			group: 'divepullquoteGroup'
-		// 		}
-		// 	});
-		// }
 
 		editor.widgets.add( 'divepullquote', {
 		    button: 'Create a pull quote',
@@ -68,7 +56,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 					'<div class="pq-hr-wrapper">'+
 						'<p class="pq-quote">Quote</p>' +
 						'<div class="pq-headshot">' +
-							'<img class="pq-headshot-img" src="" />' +
+							'<img class="pq-headshot-img" src="test"/>' +
 						'</div>' +
 						'<div class="pq-speaker-details">' +
 							'<p class="pq-speaker">Speaker name</p>' +
@@ -82,53 +70,62 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				console.log(this.element);
 				console.log("-------------");
 
-				var quote = getElementChild(this.element, 'pq-quote cke_widget_editable');
-				console.log(quote);
+				// this.element.on('doubleclick', function(evt){
+				// 	console.log(this);
+				// 	console.log(widget);
+				// });
+
+				// var quote = getElementChild(this.element, 'pq-quote cke_widget_editable');
+				// var img = getElementChild(this.element, 'pq-headshot-img');
+				// var speaker = getElementChild(this.element, 'pq-speaker cke_widget_editable');
+				// var speaker_title = getElementChild(this.element, 'pq-speaker-title cke_widget_editable');
+				var wrapper = this.element.getChildren().getItem(1);
+
+				var quote = wrapper.getChildren().getItem(0);
+				var imgDiv = wrapper.getChildren().getItem(1);
+				var speakerDiv = wrapper.getChildren().getItem(2);
+
+				var img = imgDiv.getChildren().getItem(0);
+				var speaker = speakerDiv.getChildren().getItem(0);
+				var speaker_title = speakerDiv.getChildren().getItem(1);
+
+
+
 				this.setData('quote_value',quote.getText());
-
-				var img = getElementChild(this.element, 'pq-headshot-img');
-				console.log(img);
-				this.setData('img_src',img.getText());
-
-				var speaker = getElementChild(this.element, 'pq-speaker cke_widget_editable');
-				console.log(speaker);
+				this.setData('img_src',img.getAttribute('src'));
 				this.setData('speaker_value',speaker.getText());
-
-				var speaker_title = getElementChild(this.element, 'pq-speaker-title cke_widget_editable');
-				console.log(speaker_title);
 				this.setData('speaker_title_value',speaker_title.getText());
-
-
-
-
-				// if ( this.element.hasClass('image_portrait') ) {
-				// 	this.setData('image_style_type', 'image_portrait');
-				// } else {
-				// 	this.setData('image_style_type', '');
-				// }
 			},
-            //
 			data: function() {
-				var quote = getElementChild(this.element, 'pq-quote cke_widget_editable');
-				quote.setText(this.data.quote_value);
+				var wrapper = this.element.getChildren().getItem(1);
 
-				var img = getElementChild(this.element, 'pq-headshot-img');
+				var quote = wrapper.getChildren().getItem(0);
+				var imgDiv = wrapper.getChildren().getItem(1);
+				var speakerDiv = wrapper.getChildren().getItem(2);
+
+				var img = imgDiv.getChildren().getItem(0);
+				var speaker = speakerDiv.getChildren().getItem(0);
+				var speaker_title = speakerDiv.getChildren().getItem(1);
+
+				// var quote = getElementChild(this.element, 'pq-quote cke_widget_editable');
+				// var img = getElementChild(this.element, 'pq-headshot-img');
+				// var speaker = getElementChild(this.element, 'pq-speaker cke_widget_editable');
+				// var speaker_title = getElementChild(this.element, 'pq-speaker-title cke_widget_editable');
+
+				console.log(quote);
 				console.log(img);
-				img.$.src = this.data.img_src;
-				//console.log(img);
-				//this.setData('img_src',img.getText());
+				console.log(speaker);
+				console.log(speaker_title);
 
-				var speaker = getElementChild(this.element, 'pq-speaker cke_widget_editable');
+				quote.setText(this.data.quote_value);
+				img.setAttribute('src', this.data.img_src);
 				speaker.setText(this.data.speaker_value);
-				//console.log(speaker);
-				//this.setData('speaker_value',speaker.getText());
-
-				var speaker_title = getElementChild(this.element, 'pq-speaker-title cke_widget_editable');
 				speaker_title.setText(this.data.speaker_title_value);
-				//console.log(speaker_title);
-				//this.setData('speaker_title_value',speaker_title.getText());
 
-				//this.element.getFirst().setText(this.data.tweet_value);
+				// console.log(this.data.quote_value);
+				// console.log(this.data.img_src);
+				// console.log(this.data.speaker_value);
+				// console.log(this.data.speaker_title_value);
 			},
 
 			// Check the elements that need to be converted to widgets.
@@ -163,21 +160,17 @@ CKEDITOR.plugins.add( 'divepullquote', {
  * @returns {object} - ckeditor node object
  */
 function getElementChild(element, childClass){
-	//console.log(element);
-	//console.log(childClass);
-
 	//oh lord please help you if you are reading this
-	//added this string after making this plugin a widget
-	// childClass = childClass +  ' cke_widget_editable';
-
 	var nodeList = element.getChildren();
 
 	for(var i = 0; i < nodeList.count(); i++){
 		var item = nodeList.getItem(i);
-		//console.log(item.$.className);
 
-		if(item.$.nodeName == '#text') break;
-		if(item.$.nodeName == 'HR') continue;
+		//if(item.$.nodeName == '#text') break;
+		//if(item.$.nodeName == 'HR') continue;
+		if(!item.$.hasOwnProperty(className)){
+			continue;
+		}
 
 		if(item.$.className == childClass){
 			return item;
