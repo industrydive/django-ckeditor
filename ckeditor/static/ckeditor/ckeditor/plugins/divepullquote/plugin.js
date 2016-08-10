@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 			// * http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter
 			// * http://docs.ckeditor.com/#!/guide/plugin_sdk_integration_with_acf
 			//allowedContent: 'figure(!inside_story, image_portrait); figcaption(!inside_story_caption); div(figure_content, caption_text, source_text, clearfix);img[src,alt,title,data-imagemodel,data-expandable-url,data-expandable-type]{height, width}(is_expandable)',
-			allowedContent: 'div(!pullquote, pq-hr-wrapper, pq-headshot, pq-speaker-details); p(pq-quote, pq-speaker, pq-speaker-title); img[src,alt,title,data-imagemodel,data-expandable-url,data-expandable-type]{height, width}(pq-headshot-img, is_expandable); hr;',
+			allowedContent: 'div(!pullquote, pq-hr-wrapper, pq-headshot, pq-speaker-details); p(pq-quote, pq-speaker, pq-speaker-title); img[src,alt,title,data-imagemodel,data-expandable-url,data-expandable-type]{height, width}(pq-headshot-img, pq-headshot-img-hidden, is_expandable); hr;',
 
 
 			// Minimum HTML which is required by this widget to work.
@@ -28,23 +28,23 @@ CKEDITOR.plugins.add( 'divepullquote', {
 
 			// Define two nested editable areas.
 			editables: {
-				headshot: {
+				imgDiv: {
 					// Define a CSS selector used for finding the element inside the widget element.
 					selector: '.pq-headshot',
 					// Define content allowed in this nested editable. Its content will be
 					// filtered accordingly and the toolbar will be adjusted when this editable
 					// is focused.
-					allowedContent: 'img[src, title, alt, data-imagemodel,data-expandable-url,data-expandable-type]{height, width}(pq-headshot-img, is_expandable);'
+					allowedContent: 'img[!src, title, alt]{height, width}(pq-headshot-img, pq-headshot-img-hidden);'
 				},
 				quote: {
 					selector: '.pq-quote',
 					allowedContent: 'strong em; a[!href]'
 				},
-				name: {
+				speaker: {
 					selector: '.pq-speaker',
 					allowedContent: 'em; a[!href]'
 				},
-				title: {
+				speaker_title: {
 					selector: '.pq-speaker-title',
 					allowedContent: 'em; a[!href]'
 				}
@@ -56,7 +56,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 					'<div class="pq-hr-wrapper">'+
 						'<p class="pq-quote">Quote</p>' +
 						'<div class="pq-headshot">' +
-							'<img class="pq-headshot-img" src="test"/>' +
+							'<img class="pq-headshot-img" src=" "/>' +
 						'</div>' +
 						'<div class="pq-speaker-details">' +
 							'<p class="pq-speaker">Speaker name</p>' +
@@ -67,7 +67,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				'</div>',
 
 			init: function() {
-				console.log(this.element);
+				console.log(this);
 				console.log("-------------");
 
 				// this.element.on('doubleclick', function(evt){
@@ -79,33 +79,39 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				// var img = getElementChild(this.element, 'pq-headshot-img');
 				// var speaker = getElementChild(this.element, 'pq-speaker cke_widget_editable');
 				// var speaker_title = getElementChild(this.element, 'pq-speaker-title cke_widget_editable');
-				var wrapper = this.element.getChildren().getItem(1);
+				// var wrapper = this.element.getChildren().getItem(1);
 
-				var quote = wrapper.getChildren().getItem(0);
-				var imgDiv = wrapper.getChildren().getItem(1);
-				var speakerDiv = wrapper.getChildren().getItem(2);
+				var quote = this.editables.quote;
+				var imgDiv = this.editables.imgDiv;
+				var speaker = this.editables.speaker;
+				var speaker_title = this.editables.speaker_title;
 
-				var img = imgDiv.getChildren().getItem(0);
-				var speaker = speakerDiv.getChildren().getItem(0);
-				var speaker_title = speakerDiv.getChildren().getItem(1);
+				var img = imgDiv.getFirst().$;
 
+				console.log(quote);
+				console.log(img);
+				console.log(speaker);
+				console.log(speaker_title);
 
 
 				this.setData('quote_value',quote.getText());
+
+				//todo here
 				this.setData('img_src',img.getAttribute('src'));
+				console.log(this.data.img_src);
+
 				this.setData('speaker_value',speaker.getText());
 				this.setData('speaker_title_value',speaker_title.getText());
+
+				console.log("-------------");
 			},
 			data: function() {
-				var wrapper = this.element.getChildren().getItem(1);
+				var quote = this.editables.quote;
+				var imgDiv = this.editables.imgDiv;
+				var speaker = this.editables.speaker;
+				var speaker_title = this.editables.speaker_title;
 
-				var quote = wrapper.getChildren().getItem(0);
-				var imgDiv = wrapper.getChildren().getItem(1);
-				var speakerDiv = wrapper.getChildren().getItem(2);
-
-				var img = imgDiv.getChildren().getItem(0);
-				var speaker = speakerDiv.getChildren().getItem(0);
-				var speaker_title = speakerDiv.getChildren().getItem(1);
+				var img = imgDiv.getFirst().$;
 
 				// var quote = getElementChild(this.element, 'pq-quote cke_widget_editable');
 				// var img = getElementChild(this.element, 'pq-headshot-img');
@@ -118,7 +124,19 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				console.log(speaker_title);
 
 				quote.setText(this.data.quote_value);
-				img.setAttribute('src', this.data.img_src);
+
+				//todo here
+				//if(img){
+					img.setAttribute('src', this.data.img_src);
+					img.setAttribute('data-cke-saved-src', this.data.img_src);
+
+				// if(this.data.img_src === '' || this.data.img_src === ' '){
+				// 	console.log('shit is blank');
+				// }
+				//}
+
+
+
 				speaker.setText(this.data.speaker_value);
 				speaker_title.setText(this.data.speaker_title_value);
 
