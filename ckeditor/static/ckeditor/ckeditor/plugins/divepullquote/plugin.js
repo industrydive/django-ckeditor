@@ -1,5 +1,17 @@
+/**
+ divepullquote plugin - adds icon to editor that opens a dialog with 4 text inputs that allow a user to create a pull quote.
+ Pull quote is a chunk of html that gets added into the editor--you can click on the text elements to directly edit them once
+ the pull quote is placed in the editor, and you can double click the image or the div that contains the pull quote to reopen the
+ pull quote dialog.
+
+ - This plugin is a widget (made using the widget plugin) to allow users to directly edit text fields and drag the pull quote
+ 	within the editor.
+ - There is some interaction with the diveimage plugin to stop the diveimage dialog from opening when you interact with
+ 	the image inside of a pullquote. ctrl+f 'divepullquote' in diveimage/plugin.js to find the code.
+
+ */
 CKEDITOR.plugins.add( 'divepullquote', {
-    // Miriam's Figure Box widget code.
+    // Hayden's pullquote widget code.
     requires: 'widget,dialog',
     icons: 'divepullquote',
 
@@ -38,6 +50,8 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				},
 				quote: {
 					selector: '.pq-quote',
+					//I kept the p-tag allowed content the same as Miriam's figurebox plugin code that I took this from,
+					//but we may not need to allow this content
 					allowedContent: 'strong em; a[!href]'
 				},
 				speaker: {
@@ -50,6 +64,12 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				}
 			},
 
+			/*	default code that is made when a user first hits the plugin button---the text values from the paragraphs
+				and the src from the image are inserted into the starting dialog that the user sees.
+
+				!!IMPORTANT!! - the source is supposed to be a blank space. If it is not present or not a blank space ("")
+				then it currently gets filtered out by
+			*/
 			template:
 				'<div class="pullquote">' +
 					'<hr>'+
@@ -67,92 +87,49 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				'</div>',
 
 			init: function() {
-				console.log(this);
-				console.log("-------------");
-
-				// this.element.on('doubleclick', function(evt){
-				// 	console.log(this);
-				// 	console.log(widget);
-				// });
-
-				// var quote = getElementChild(this.element, 'pq-quote cke_widget_editable');
-				// var img = getElementChild(this.element, 'pq-headshot-img');
-				// var speaker = getElementChild(this.element, 'pq-speaker cke_widget_editable');
-				// var speaker_title = getElementChild(this.element, 'pq-speaker-title cke_widget_editable');
-				// var wrapper = this.element.getChildren().getItem(1);
-
+				//gets references to editable elements defined above
 				var quote = this.editables.quote;
 				var imgDiv = this.editables.imgDiv;
 				var speaker = this.editables.speaker;
 				var speaker_title = this.editables.speaker_title;
 
+				//the div surrounding the img element is the editable element, so we
+				//need to get the reference to the img child of the surrounding div
 				if(imgDiv.getChildCount() > 0){
 					var img = imgDiv.getFirst().$;
-
+					//store the default src value of the img element in the widget data
 					this.setData('img_src',img.getAttribute('src'));
-					console.log(this.data.img_src);
 				}
 
-
-				console.log(quote);
-				console.log(img);
-				console.log(speaker);
-				console.log(speaker_title);
-
-
+				//store the default text values of the editable paragraph elements in the widget data
 				this.setData('quote_value',quote.getText());
-
-				//todo here
-
-
 				this.setData('speaker_value',speaker.getText());
 				this.setData('speaker_title_value',speaker_title.getText());
-
-				console.log("-------------");
 			},
+			//called everytime the setData function is called on a widget
+			//--- data associated with each editable element is edited by the used in the dialog window,
+			// and then the data function gets those changed data values and edits the dom elements
 			data: function() {
+				//gets references to editable elements defined above
 				var quote = this.editables.quote;
 				var imgDiv = this.editables.imgDiv;
 				var speaker = this.editables.speaker;
 				var speaker_title = this.editables.speaker_title;
 
+				//the div surrounding the img element is the editable element, so we
+				//need to get the reference to the img child of the surrounding div
 				if(imgDiv.getChildCount() > 0) {
 					var img = imgDiv.getFirst().$;
 
+					//set both the src and 'data-cke-saved-src' of the img element...idk just what works with ckeditor
 					img.setAttribute('src', this.data.img_src);
 					img.setAttribute('data-cke-saved-src', this.data.img_src);
 				}
 
-				// var quote = getElementChild(this.element, 'pq-quote cke_widget_editable');
-				// var img = getElementChild(this.element, 'pq-headshot-img');
-				// var speaker = getElementChild(this.element, 'pq-speaker cke_widget_editable');
-				// var speaker_title = getElementChild(this.element, 'pq-speaker-title cke_widget_editable');
-
-				console.log(quote);
-				console.log(img);
-				console.log(speaker);
-				console.log(speaker_title);
-
+				//set the text of the ckeditor elements associated with the changed data values
 				quote.setText(this.data.quote_value);
-
-				//todo here
-				//if(img){
-
-
-				// if(this.data.img_src === '' || this.data.img_src === ' '){
-				// 	console.log('shit is blank');
-				// }
-				//}
-
-
-
 				speaker.setText(this.data.speaker_value);
 				speaker_title.setText(this.data.speaker_title_value);
-
-				// console.log(this.data.quote_value);
-				// console.log(this.data.img_src);
-				// console.log(this.data.speaker_value);
-				// console.log(this.data.speaker_title_value);
 			},
 
 			// Check the elements that need to be converted to widgets.
@@ -171,42 +148,3 @@ CKEDITOR.plugins.add( 'divepullquote', {
     }
 
 });
-
-/**
- * Get a child node of a ckeditor node by the ckeditor DOM element's className
- * Will search recursively until it finds a classname match, or return undefined
- *
- * Used to find the child of the main pullquote div that matches the text input
- * into the plugin dialog.
- *
- *  see 'getChildren()' @ http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element
- *  see http://docs.ckeditor.com/#!/api/CKEDITOR.dom.nodeList
- *
- * @param element    - a ckeditor parent node that you want to search
- * @param childClass - the classname string of the child element
- * @returns {object} - ckeditor node object
- */
-function getElementChild(element, childClass){
-	//oh lord please help you if you are reading this
-	var nodeList = element.getChildren();
-
-	for(var i = 0; i < nodeList.count(); i++){
-		var item = nodeList.getItem(i);
-
-		//if(item.$.nodeName == '#text') break;
-		//if(item.$.nodeName == 'HR') continue;
-		if(!item.$.hasOwnProperty(className)){
-			continue;
-		}
-
-		if(item.$.className == childClass){
-			return item;
-		}
-		else if(item.getChildCount() != 0){
-			item = getElementChild(item, childClass);
-			if(item){
-				return item;
-			}
-		}
-	}
-}
