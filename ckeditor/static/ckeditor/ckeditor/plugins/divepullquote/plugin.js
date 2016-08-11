@@ -86,7 +86,13 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				var speaker = this.editables.speaker;
 				var speaker_title = this.editables.speaker_title;
 
-				var img = imgDiv.getFirst().$;
+				if(imgDiv.getChildCount() > 0){
+					var img = imgDiv.getFirst().$;
+
+					this.setData('img_src',img.getAttribute('src'));
+					console.log(this.data.img_src);
+				}
+
 
 				console.log(quote);
 				console.log(img);
@@ -97,8 +103,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				this.setData('quote_value',quote.getText());
 
 				//todo here
-				this.setData('img_src',img.getAttribute('src'));
-				console.log(this.data.img_src);
+
 
 				this.setData('speaker_value',speaker.getText());
 				this.setData('speaker_title_value',speaker_title.getText());
@@ -111,7 +116,12 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				var speaker = this.editables.speaker;
 				var speaker_title = this.editables.speaker_title;
 
-				var img = imgDiv.getFirst().$;
+				if(imgDiv.getChildCount() > 0) {
+					var img = imgDiv.getFirst().$;
+
+					img.setAttribute('src', this.data.img_src);
+					img.setAttribute('data-cke-saved-src', this.data.img_src);
+				}
 
 				// var quote = getElementChild(this.element, 'pq-quote cke_widget_editable');
 				// var img = getElementChild(this.element, 'pq-headshot-img');
@@ -127,8 +137,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 
 				//todo here
 				//if(img){
-					img.setAttribute('src', this.data.img_src);
-					img.setAttribute('data-cke-saved-src', this.data.img_src);
+
 
 				// if(this.data.img_src === '' || this.data.img_src === ' '){
 				// 	console.log('shit is blank');

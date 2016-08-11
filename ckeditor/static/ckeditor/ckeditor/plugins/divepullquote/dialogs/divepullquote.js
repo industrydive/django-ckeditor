@@ -24,7 +24,7 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
 						type: 'text',
 						id: 'pq-headshot-img',
 						label: 'Pullquote Image URL (ex. http://www.educationdive.com/user_media/diveimage/johndoe.jpg )'/*<br><p style="font-style:italic;">*Manually provide URL for now, working on integrating with CMS images.</p>'*/,
-						// validate: CKEDITOR.dialog.validate.notEmpty( "Image source field cannot be empty." ),
+						validate: CKEDITOR.dialog.validate.notEmpty( "Image source field cannot be empty." ),
 						setup: function( widget ) {
 							//if(widget.data.img_src){
 								this.setValue(widget.data.img_src);
