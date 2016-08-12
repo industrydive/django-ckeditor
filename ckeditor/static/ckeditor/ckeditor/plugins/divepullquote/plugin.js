@@ -28,17 +28,15 @@ CKEDITOR.plugins.add( 'divepullquote', {
 			// Read more about the Advanced Content Filter here:
 			// * http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter
 			// * http://docs.ckeditor.com/#!/guide/plugin_sdk_integration_with_acf
-			//allowedContent: 'figure(!inside_story, image_portrait); figcaption(!inside_story_caption); div(figure_content, caption_text, source_text, clearfix);img[src,alt,title,data-imagemodel,data-expandable-url,data-expandable-type]{height, width}(is_expandable)',
 			allowedContent: 'div(!pullquote, pq-hr-wrapper, pq-headshot, pq-speaker-details); p(pq-quote, pq-speaker, pq-speaker-title); img[src,alt,title,data-imagemodel,data-expandable-url,data-expandable-type]{height, width}(pq-headshot-img, pq-headshot-img-hidden, is_expandable); hr;',
 
 
 			// Minimum HTML which is required by this widget to work.
-			//requiredContent: 'figure(inside_story); figcaption(inside_story_caption);',
 			requiredContent: 'div(pullquote);',
 
 			inline: false,
 
-			// Define two nested editable areas.
+			// Define the nested editable areas.
 			editables: {
 				imgDiv: {
 					// Define a CSS selector used for finding the element inside the widget element.
@@ -51,7 +49,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				quote: {
 					selector: '.pq-quote',
 					//I kept the p-tag allowed content the same as Miriam's figurebox plugin code that I took this from,
-					//but we may not need to allow this content
+					//but we may not need to allow this content - Hayden
 					allowedContent: 'strong em; a[!href]'
 				},
 				speaker: {
