@@ -51,8 +51,15 @@
 			editor.on( 'doubleclick', function( evt ) {
 				var element = evt.data.element;
 
-				if ( element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() )
+				// divepullquote
+				//checks to see if clicked element is a pull quote image and runs a different dialog if so
+				if(element.hasClass("pq-headshot-img")){
+					var widget = editor.widgets.widgetHoldingFocusedEditable;
+					return widget.fire( 'doubleclick', { element: evt.data.element } );
+				}
+				else if ( element.is( 'img' ) && !element.data( 'cke-realelement' ) && !element.isReadOnly() ) {
 					evt.data.dialog = 'diveimage';
+				}
 			});
 
 			// If the "menu" plugin is loaded, register the menu items.
