@@ -39,13 +39,16 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
 						},
 						commit: function( widget ) {
 							//get the actual img dom element, not some ckeditor psuedo element wrapped bullshit
-							var img = widget.editables.imgDiv.getFirst().$;
+							var img = widget.editables.imgDiv.getFirst().$,
+                                // Placeholder to set empty img src to before we hide it. We can't just remove
+                                // the img if the src is empty bc editors might want to add an img later and the
+                                // element still needs to be there.
+                                placeholder = https://d12v9rtnomnebu.cloudfront.net/dive_static/diveimages/corporate_site/teampage/square_profiles/placeholder-200.png
 
 							//checks for an empty value or one space so we can delete image
 							if(this.getValue() === '' || this.getValue() === ' '){
-								//widget.setData('img_src', this.getValue());
-								//img.className = 'pq-headshot-img-hidden';
-                                img.parentNode.removeChild(img);
+								widget.setData('img_src', placeholder);
+								img.className = 'pq-headshot-img-hidden';
 							}
 							//if the user provides a url we set the widget's data.img_src property and make sure the image
 							//has a class that will show up on the page
