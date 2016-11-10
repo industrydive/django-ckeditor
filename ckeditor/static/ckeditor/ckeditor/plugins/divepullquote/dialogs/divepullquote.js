@@ -41,11 +41,11 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
 							//get the actual img dom element, not some ckeditor psuedo element wrapped bullshit
 							var img = widget.editables.imgDiv.getFirst().$;
 
-							//checks for an empty value or one space...we allow user to create pullquote without an image,
-							//but we need to change the pullquote class styling to not display on the page
+							//checks for an empty value or one space so we can delete image
 							if(this.getValue() === '' || this.getValue() === ' '){
-								widget.setData('img_src', this.getValue());
-								img.className = 'pq-headshot-img-hidden';
+								//widget.setData('img_src', this.getValue());
+								//img.className = 'pq-headshot-img-hidden';
+                                img.parentNode.removeChild(img);
 							}
 							//if the user provides a url we set the widget's data.img_src property and make sure the image
 							//has a class that will show up on the page
