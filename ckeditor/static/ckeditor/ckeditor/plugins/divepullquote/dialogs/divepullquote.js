@@ -39,7 +39,7 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
 						},
 						commit: function( widget ) {
 							//get the actual img dom element, not some ckeditor psuedo element wrapped bullshit
-							var img = widget.editables.imgDiv.getFirst().$,
+							var img = widget.editables.imgDiv.getFirst().getFirst().$,
                                 // Placeholder to set empty img src to before we hide it. We can't just remove
                                 // the img if the src is empty bc editors might want to add an img later and the
                                 // element still needs to be there.
