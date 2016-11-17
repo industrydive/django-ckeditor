@@ -51,7 +51,7 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
                             var placeholder = 'https://d12v9rtnomnebu.cloudfront.net/dive_static/diveimages/corporate_site/teampage/square_profiles/placeholder-200.png';
 
 							//checks for an empty value or one space so we can delete image
-							if(this.getValue() === '' || this.getValue() === ' '){
+							if(this.getValue() === '' || this.getValue() === ' ' || this.getValue() == placeholder){
 								widget.setData('img_src', placeholder);
                                 img.setAttribute('src', widget.data.img_src);
                                 img.setAttribute('data-cke-saved-src', widget.data.img_src);
