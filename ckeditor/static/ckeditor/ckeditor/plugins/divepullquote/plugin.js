@@ -94,7 +94,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				//the div surrounding the img element is the editable element, so we
 				//need to get the reference to the img child of the surrounding div
 				if(imgDiv.getChildCount() > 0){
-					var img = imgDiv.getFirst().getFirst().$;
+					var img = imgDiv.getFirst().$;
 					//store the default src value of the img element in the widget data
 					this.setData('img_src',img.getAttribute('src'));
 				}
@@ -117,7 +117,7 @@ CKEDITOR.plugins.add( 'divepullquote', {
 				//the div surrounding the img element is the editable element, so we
 				//need to get the reference to the img child of the surrounding div
 				if(imgDiv.getChildCount() > 0) {
-					var img = imgDiv.getFirst().getFirst().$;
+					var img = imgDiv.getFirst().$;
 
 					//set both the src and 'data-cke-saved-src' of the img element...idk just what works with ckeditor
 					img.setAttribute('src', this.data.img_src);
