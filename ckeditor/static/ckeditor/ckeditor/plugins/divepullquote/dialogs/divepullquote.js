@@ -39,21 +39,30 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
 						},
 						commit: function( widget ) {
 							//get the actual img dom element, not some ckeditor psuedo element wrapped bullshit
-							var img = widget.editables.imgDiv.getFirst().$,
-                                // Placeholder to set empty img src to before we hide it. We can't just remove
-                                // the img if the src is empty bc editors might want to add an img later and the
-                                // element still needs to be there.
-                                placeholder = 'https://d12v9rtnomnebu.cloudfront.net/dive_static/diveimages/corporate_site/teampage/square_profiles/placeholder-200.png';
+                            if (widget.editables.imgDiv.getFirst().getFirst() != null) {
+							    var img = widget.editables.imgDiv.getFirst().getFirst().$;
+                            } else {
+                                var img = widget.editables.imgDiv.getFirst().$;
+                            }
+                            
+                            // Placeholder to set empty img src to before we hide it. We can't just remove
+                            // the img if the src is empty bc editors might want to add an img later and the
+                            // element still needs to be there.
+                            var placeholder = 'https://d12v9rtnomnebu.cloudfront.net/dive_static/diveimages/corporate_site/teampage/square_profiles/placeholder-200.png';
 
 							//checks for an empty value or one space so we can delete image
 							if(this.getValue() === '' || this.getValue() === ' '){
 								widget.setData('img_src', placeholder);
+                                img.setAttribute('src', widget.data.img_src);
+                                img.setAttribute('data-cke-saved-src', widget.data.img_src);
 								img.className = 'pq-headshot-img-hidden';
 							}
 							//if the user provides a url we set the widget's data.img_src property and make sure the image
 							//has a class that will show up on the page
 							else{
 								widget.setData('img_src', this.getValue());
+                                img.setAttribute('src', widget.data.img_src);
+                                img.setAttribute('data-cke-saved-src', widget.data.img_src);
 								img.className = 'pq-headshot-img';
 							}
 						}
@@ -74,7 +83,7 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
 						type: 'text',
 						id: 'pq-speaker-title',
 						label: 'Speaker Title',
-						validate: CKEDITOR.dialog.validate.notEmpty( "Speaker title field cannot be empty." ),
+						// validate: CKEDITOR.dialog.validate.notEmpty( "Speaker title field cannot be empty." ),
 						setup: function( widget ) {
 							this.setValue(widget.data.speaker_title_value);
 						},
