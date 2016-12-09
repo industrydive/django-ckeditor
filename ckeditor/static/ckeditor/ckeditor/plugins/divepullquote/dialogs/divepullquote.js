@@ -71,7 +71,7 @@ CKEDITOR.dialog.add('divepullquote', function(editor){
 						type: 'text',
 						id: 'pq-speaker',
 						label: 'Speaker Name',
-						validate: CKEDITOR.dialog.validate.notEmpty( "Speaker name field cannot be empty." ),
+						// validate: CKEDITOR.dialog.validate.notEmpty( "Speaker name field cannot be empty." ),
 						setup: function( widget ) {
 							this.setValue(widget.data.speaker_value);
 						},
