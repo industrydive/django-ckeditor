@@ -10,6 +10,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.extraPlugins = 'notification';
 	config.extraPlugins = 'autosave';
 	config.autosave = {
-		delay: 10,
+		// save every X seconds
+		delay: 5,
+		// ignore Content older then X
+		NotOlderThen : 2880,
 	}
 };
