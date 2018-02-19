@@ -4,15 +4,18 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
-	config.extraPlugins = 'notification';
-	config.extraPlugins = 'autosave';
-	config.autosave = {
-		// save every X seconds
-		delay: 5,
-		// ignore Content older then X
-		NotOlderThen : 2880,
-	}
+    // Define changes to default configuration here. For example:
+    // config.language = 'fr';
+    // config.uiColor = '#AADC6E';
+    config.extraPlugins = 'notification';
+    config.extraPlugins = 'autosave';
+    config.autosave = {
+        // save every X seconds
+        delay: 5,
+        // ignore Content older then X
+        NotOlderThen : 2880,
+        // show in the Status Bar, overriding default "notification"
+        // ckeditor upgrade required to use "notification"
+        messageType : "statusbar",
+    }
 };
