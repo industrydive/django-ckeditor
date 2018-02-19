@@ -250,12 +250,12 @@
     }
 
     function LoadData(autoSaveKey) {
-        var compressedJSON = LZString.decompressFromUTF16(localStorage.getItem(autoSaveKey));
+        var compressedJSON = localStorage.getItem(autoSaveKey); // var compressedJSON = LZString.decompressFromUTF16(localStorage.getItem(autoSaveKey));
         return JSON.parse(compressedJSON);
     }
 
     function SaveData(autoSaveKey, editorInstance, config) {
-        var compressedJSON = LZString.compressToUTF16(JSON.stringify({ data: editorInstance.getData(), saveTime: new Date() }));
+        var compressedJSON = JSON.stringify({ data: editorInstance.getData(), saveTime: new Date() }); // var compressedJSON = LZString.compressToUTF16(JSON.stringify({ data: editorInstance.getData(), saveTime: new Date() }));
 
         var quotaExceeded = false;
 
