@@ -249,10 +249,9 @@
                 // START NEW
                 $("#grp-context-navigation").append(
                     '<div class="admin_msg autosave-prompt-message" style="position:fixed;width:100%;margin-top:25px;border:none;padding-left:20px;"> \
-                        ALERT: You have an autosave version of this post: \
-                        <!-- ...from this time --> \
-                        Do you want to <a href="#" class="autosave-view">view the changes</a> or do you want to \
-                        <a href="#" class="autosave-discard"> discard the changes?</a> \
+                        ALERT: You have an autosaved version of this post <!-- ...from this time -->. \
+                        Do you want to <a href="#" class="autosave-discard"> discard the changes</a> or do you want to \
+                        <a href="#" class="autosave-view">view the changes?</a> \
                     </div>'
                 );
                 $("a.autosave-view").click(function(event){
