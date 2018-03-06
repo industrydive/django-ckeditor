@@ -238,13 +238,36 @@
                 var confirmMessage = editorInstance.lang.autosave.loadSavedContent.replace("{0}",
                     moment(autoSavedContentDate).locale(editorInstance.config.language)
                     .format(editorInstance.lang.autosave.dateFormat));
-
-                if (confirm(confirmMessage)) {
-                    // Open DIFF Dialog
+                // START OLD
+                // if (confirm(confirmMessage)) {
+                //     // Open DIFF Dialog
+                //     editorInstance.openDialog('autosaveDialog');
+                // } else {
+                //     RemoveStorage(autoSaveKey, editorInstance);
+                // }
+                // END OLD
+                // START NEW
+                $("#grp-context-navigation").append(
+                    '<div class="admin_msg autosave-prompt-message" style="position:fixed;width:100%;margin-top:25px;border:none;padding-left:20px;"> \
+                        ALERT: You have an autosave version of this post: \
+                        <!-- ...from this time --> \
+                        Do you want to <a href="#" class="autosave-view">view the changes</a> or do you want to \
+                        <a href="#" class="autosave-discard"> discard the changes?</a> \
+                    </div>'
+                );
+                $("a.autosave-view").click(function(event){
+                    event.preventDefault();
                     editorInstance.openDialog('autosaveDialog');
-                } else {
+                    console.log("Accept!");
+                    $(".autosave-prompt-message").remove();
+                });
+                $("a.autosave-discard").click(function(event){
+                    event.preventDefault();
                     RemoveStorage(autoSaveKey, editorInstance);
-                }
+                    console.log("Discard!");
+                    $(".autosave-prompt-message").remove();
+                });
+                // END NEW
             }
         }
     }
