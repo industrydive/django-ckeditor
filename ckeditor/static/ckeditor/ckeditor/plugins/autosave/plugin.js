@@ -257,7 +257,7 @@
                 var confirmMessageID = autosaveId + autosaveFieldName;
 
                 $("#grp-context-navigation").append(
-                    '<div class="admin_msg autosave-prompt-message" id="' + confirmMessageID + '" style="position:fixed;width:100%;margin-top:25px;border:none;padding-left:20px;"> \
+                    '<div class="admin_msg autosave-prompt-message" id="' + confirmMessageID + '" style="width:100%;margin-top:25px;border:none;padding-left:20px;"> \
                         ALERT: You have an autosaved version of this post\'s ' + autosaveFieldName.split("_")[1] + ' from ' + autosaveDateTime + '. \
                         Do you want to <a href="#" class="autosave-discard"> discard the changes</a> or do you want to \
                         <a href="#" class="autosave-view">view the changes?</a> \
