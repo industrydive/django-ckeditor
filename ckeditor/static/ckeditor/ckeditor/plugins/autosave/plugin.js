@@ -235,16 +235,59 @@
                     RemoveStorage(autoSaveKey, editorInstance);
                 }
             } else {
-                var confirmMessage = editorInstance.lang.autosave.loadSavedContent.replace("{0}",
-                    moment(autoSavedContentDate).locale(editorInstance.config.language)
-                    .format(editorInstance.lang.autosave.dateFormat));
+                // START old code from original plugin
+                // var confirmMessage = editorInstance.lang.autosave.loadSavedContent.replace("{0}",
+                //     moment(autoSavedContentDate).locale(editorInstance.config.language)
+                //     .format(editorInstance.lang.autosave.dateFormat));
+                // if (confirm(confirmMessage)) {
+                //     // Open DIFF Dialog
+                //     editorInstance.openDialog('autosaveDialog');
+                // } else {
+                //     RemoveStorage(autoSaveKey, editorInstance);
+                // }
+                // END old code
+                // START new code to implement a less obtrusive prompt UI
+                // for notifying users they have an autosave, with options
+                // to view or discard the changes
+                var autosaveDateTime = moment(autoSavedContentDate).locale(editorInstance.config.language).format(editorInstance.lang.autosave.dateFormat);
 
-                if (confirm(confirmMessage)) {
-                    // Open DIFF Dialog
+                var autosaveKeyValues = autoSaveKey.split("/").reverse();
+                var autosaveId = autosaveKeyValues[1];
+                var autosaveFieldName = autosaveKeyValues[0];
+                var confirmMessageID = autosaveId + autosaveFieldName;
+
+                $("#grp-context-navigation").append(
+                    '<div class="admin_msg autosave-prompt-message" id="' + confirmMessageID + '" style="width:100%;margin-top:25px;border:none;padding-left:20px;"> \
+                        ALERT: You have an autosaved version of this post\'s ' + autosaveFieldName.split("_")[1] + ' from ' + autosaveDateTime + '. \
+                        Do you want to <a href="#" class="autosave-discard"> discard the changes</a> or do you want to \
+                        <a href="#" class="autosave-view">view the changes?</a> \
+                    </div>'
+                );
+
+                var confirmMessageIDselector = "#" + confirmMessageID;
+                console.log(confirmMessageIDselector);
+
+                $(confirmMessageIDselector + " a.autosave-view").click(function(event){
+                    console.log("Clicked: " + confirmMessageIDselector);
+                    // avoid url changing bc of clicking a href="#"
+                    event.preventDefault();
+                    // open the autosave dialog
                     editorInstance.openDialog('autosaveDialog');
-                } else {
+                    // remove the notification
+                    $(confirmMessageIDselector).remove();
+                    console.log("Removed: " + confirmMessageIDselector);
+                });
+                $(confirmMessageIDselector + " a.autosave-discard").click(function(event){
+                    console.log("Clicked: " + confirmMessageIDselector);
+                    // avoid url changing bc of clicking a href="#"
+                    event.preventDefault();
+                    // open the autosave dialog
                     RemoveStorage(autoSaveKey, editorInstance);
-                }
+                    // remove the notification
+                    $(confirmMessageIDselector).remove();
+                    console.log("Removed: " + confirmMessageIDselector);
+                });
+                // END new
             }
         }
     }
