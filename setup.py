@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import os.path
 from setuptools import setup, find_packages
 
@@ -9,7 +10,7 @@ def get_source_files():
 
 setup(
     name='django-ckeditor',
-    version='4.4.7+dive.ckeditor.10',
+    version='4.4.7+dive.ckeditor.11',
     description='Django admin CKEditor integration.',
     long_description=open('README.rst', 'r').read() + open('AUTHORS.rst', 'r').read() + open('CHANGELOG.rst', 'r').read(),
     author='Shaun Sephton & Piotr Malinski',

@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from datetime import datetime
 import os
 
@@ -42,7 +43,7 @@ class ImageUploadView(generic.View):
         # Get the uploaded file from request.
         upload = request.FILES['upload']
 
-        #Verify that file is a valid image
+        # Verify that file is a valid image
         backend = image_processing.get_backend()
         try:
             backend.image_verify(upload)

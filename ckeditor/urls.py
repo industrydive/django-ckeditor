@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import django
 from django.conf.urls import url
 from django.contrib.admin.views.decorators import staff_member_required
