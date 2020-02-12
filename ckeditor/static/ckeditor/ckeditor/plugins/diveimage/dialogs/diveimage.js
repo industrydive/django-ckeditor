@@ -964,6 +964,7 @@
 							},
 							parseJsonAttribution: function(json_obj) {
 								var new_credit = '';
+								console.log('CHANGING THE IMAGE ATTRIBUTION NOW!!');
 
 								if ( json_obj.inlineAttribution.length ) {
 									new_credit = json_obj.inlineAttribution;
