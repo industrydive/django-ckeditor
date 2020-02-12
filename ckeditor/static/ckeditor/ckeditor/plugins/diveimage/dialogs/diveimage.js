@@ -86,7 +86,7 @@
 				var img_id = this.getContentElement('advanced', 'dive_id').getValue();
 
 				if ( parseInt(img_id) > 0 ) {
-					var fetch_url = 'http://localhost:8000/api/v1/diveimage/get_data/?camelcase=1&id=' + img_id;
+					var fetch_url = '/api/v1/diveimage/get_data/?camelcase=1&id=' + img_id;
 					json_text = CKEDITOR.ajax.load(fetch_url);
 					json_obj = JSON.parse(json_text);
 					json_elem.setValue(json_text);
