@@ -965,20 +965,8 @@
 							parseJsonAttribution: function(json_obj) {
 								var new_credit = '';
 
-								if ( json_obj.attribution.length ) {
-									new_credit = json_obj.attribution;
-								}
-
-								if ( json_obj.attributionUrl.length ) {
-									var start_link = '<a href="' + json_obj.attributionUrl + '">';
-									var link_text = new_credit.length ? new_credit : json_obj.attributionUrl
-									new_credit = start_link + link_text + '</a>';
-								}
-
-								// set this so that we will replace the current
-								// credit
-								if ( ! new_credit.length ) {
-									new_credit = ' ';
+								if ( json_obj.inlineAttribution.length ) {
+									new_credit = json_obj.inlineAttribution;
 								}
 
 								return new_credit;
