@@ -28,8 +28,12 @@ CKEDITOR.dialog.add( 'imagemodelwidget', function( editor ) {
 								var attribution_area = parent_dialog.getContentElement(tab, prefix+'attribution');
 								var new_attribution = '';
 
-								if ( json_obj.inlineAttribution.length ) {
-									new_attribution = json_obj.inlineAattribution;
+								if ( json_obj.attribution.length ) {
+									new_attribution = json_obj.attribution;
+								}
+
+								if ( json_obj.attributionUrl.length ) {
+									new_attribution = '<a href="' + json_obj.attributionUrl + '">' + new_attribution + '</a>';
 								}
 
 								attribution_area.setValue(new_attribution);
