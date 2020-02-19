@@ -965,8 +965,8 @@
 							parseJsonAttribution: function(json_obj) {
 								var new_credit = '';
 
-								if ( json_obj.Attribution.length ) {
-									new_credit = json_obj.Attribution;
+								if ( json_obj.attribution.length ) {
+									new_credit = json_obj.attribution;
 								}
 
 								return new_credit;
