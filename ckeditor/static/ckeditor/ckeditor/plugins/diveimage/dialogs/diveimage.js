@@ -10,8 +10,6 @@
 			LINK = 2,
 			PREVIEW = 4,
 			CLEANUP = 8,
-			regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i,
-			regexGetSizeOrEmpty = /(^\s*(\d+)((px)|\%)?\s*$)|^$/i,
 			pxLengthRegex = /^\d+px$/;
 
 		var updatePreview = function(dialog) {
@@ -40,23 +38,6 @@
 
 		function commitDiveContent(imageElement) {
 			var imagemodel_id = this.getContentElement('advanced', 'dive_id').getValue();
-
-
-			var expandable_checked = this.getContentElement('info', 'image_expandable').getValue();
-            var className = 'is_expandable';
-
-			if ( expandable_checked ) {
-				var expand_type = this.getContentElement('advanced', 'dive_expandable_choices').getValue();
-				var expand_url = this.getContentElement('advanced', 'dive_expandable_location').getValue();
-
-				imageElement.addClass(className);
-				imageElement.data('expandable-url', expand_url);
-				imageElement.data('expandable-type', expand_type);
-			} else {
-				imageElement.removeClass(className);
-				imageElement.data('expandable-url', false);
-				imageElement.data('expandable-type', false);
-			}
 
 			imageElement.data('imagemodel', imagemodel_id);
 
@@ -493,34 +474,6 @@
  						type: 'html',
 						html: ''
 					},
-                    { id: 'image_expandable',
-                      type: 'checkbox',
-                      label: 'Expandable',
-                      default: '', // Uncheck by default
-                      style: 'vertical-align:bottom;',
-                      setup: function(type, element) {
-                          var className = 'is_expandable';
-                          if (type == IMAGE) {
-                          	is_expandable = element.hasClass(className);
-                            this.setValue(is_expandable);
-                          }
-                      },
-                      commit: function(type, element) {
-                        var className = 'is_expandable';
-                        if (type == IMAGE) {
-                            is_checked = this.getValue();
-                            is_expandable = element.hasClass(className);
-                            // Made expandable but class doesn't exist 
-                            if (is_checked && !is_expandable) {
-                                element.addClass(className);
-                            }
-                            // Value unchecked but class exists
-                            else if (!is_checked && is_expandable) {
-                                element.removeClass(className);
-                            }
-                        }
-					  }
-                    },
 					{ type: 'hbox',
 						id: 'basic',
 						type: 'vbox',
@@ -531,15 +484,6 @@
 							html: '<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none">' +
 							'<div class="loading">&nbsp;</div></div>' +
 							'<img id="' + previewImageId + '" alt="" style="max-width:100%;"/>'
-							// html: '<div>' + CKEDITOR.tools.htmlEncode(editor.lang.common.preview) + '<br>' +
-							// 	 +
-							// 	'<div class="ImagePreviewBox"><table><tr><td>' +
-							// 	'<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">' +
-							// 	'<img id="' + previewImageId + '" alt="" /></a>' +
-							// 	(editor.config.image_previewText || 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. ' +
-							// 	'Maecenas feugiat consequat diam. Maecenas metus. Vivamus diam purus, cursus a, commodo non, facilisis vitae, ' +
-							// 	'nulla. Aenean dictum lacinia tortor. Nunc iaculis, nibh non iaculis aliquam, orci felis euismod neque, sed ornare massa mauris sed velit. Nulla pretium mi et risus. Fusce mi pede, tempor id, cursus ac, ullamcorper nec, enim. Sed tortor. Curabitur molestie. Duis velit augue, condimentum at, ultrices a, luctus ut, orci. Donec pellentesque egestas eros. Integer cursus, augue in cursus faucibus, eros pede bibendum sem, in tempus tellus justo quis ligula. Etiam eget tortor. Vestibulum rutrum, est ut placerat elementum, lectus nisl aliquam velit, tempor aliquam eros nunc nonummy metus. In eros metus, gravida a, gravida sed, lobortis id, turpis. Ut ultrices, ipsum at venenatis fringilla, sem nulla lacinia tellus, eget aliquet turpis mauris non enim. Nam turpis. Suspendisse lacinia. Curabitur ac tortor ut ipsum egestas elementum. Nunc imperdiet gravida mauris.') +
-							// 	'</td></tr></table></div></div>'
 						}]
                     },
 					{ type: 'hbox',
@@ -702,15 +646,6 @@
 										[editor.lang.common.notSet, ''],
 										[editor.lang.common.alignLeft, 'left'],
 										[editor.lang.common.alignRight, 'right']
-										// Backward compatible with v2 on setup when specified as attribute value,
-										// while these values are no more available as select options.
-										//	[ editor.lang.image.alignAbsBottom , 'absBottom'],
-										//	[ editor.lang.image.alignAbsMiddle , 'absMiddle'],
-										//  [ editor.lang.image.alignBaseline , 'baseline'],
-										//  [ editor.lang.image.alignTextTop , 'text-top'],
-										//  [ editor.lang.image.alignBottom , 'bottom'],
-										//  [ editor.lang.image.alignMiddle , 'middle'],
-										//  [ editor.lang.image.alignTop , 'top']
 									],
 									onChange: function() {
 										updatePreview(this.getDialog());
@@ -944,11 +879,6 @@
 									d.getContentElement('info', 'txtUrl').setValue(json_obj.lightboxUrl);
 								}
 
-								// handle expandable options
-								d.getContentElement('advanced', 'dive_img_full_url').setValue(json_obj.lightboxUrl);
-								d.getContentElement('advanced', 'dive_expandable_location').setValue(json_obj.lightboxUrl);
-								d.getContentElement('advanced', 'dive_expandable_choices').setValue('dive_expand_uncropped');
-
 								//need to set this AFTER changing the Url, because the in the
 								// Url onChange the id is wiped
 								d.getContentElement('advanced', 'dive_id').setValue(json_obj.id);
@@ -976,78 +906,6 @@
 							type: 'checkbox',
 							label: 'Replace Attribution',
 							'default': 'checked'
-						},
-						{ id: 'dive_expandable_choices',
-							type: 'select',
-							label: 'Expand Image on Click:',
-							items: [
-								['Same Image', 'dive_expand_same'],
-								['Uncropped Image', 'dive_expand_uncropped'],
-								['Other Image (enter URL)', 'dive_expand_url']
-							],
-							default: 'dive_expand_same',
-							setup: function(type, element) {
-								if (type == IMAGE) {
-									var expand_url = element.data('expandable-url');
-									var expand_type = element.data('expandable-type');
-
-									if (!expand_type) {
-										if (expand_url) {
-											expand_type = 'dive_expand_url';
-										} else {
-											expand_type = 'dive_expand_same';
-										}
-									}
-
-									// UNSAFE TODO
-									this.setValue(expand_type);
-								}
-							},
-							onChange: function(evt) {
-								var html_element = this.getDialog().getContentElement('advanced', 'dive_expandable_location');
-
-								if (this.getValue() == 'dive_expand_url') {
-									html_element.getElement().show();
-								}
-								else {
-									html_element.getElement().hide();
-								}
-
-								if (this.getValue() == 'dive_expand_uncropped') {
-									// var full_url_element = this.getDialog().getContentElement('advanced', 'dive_img_full_url');
-									var full_url = this.getDialog().getJSONData('lightboxUrl');
-									html_element.setValue(full_url);
-									// full_url_element.setValue(full_url);
-
-								}
-							},
-							commit: function(type, element) {
-								element.data('expandable-type', this.getValue());
-							}
-						},
-						{ id: 'dive_expandable_location',
-							type: 'text',
-							hidden: true,
-							// inputStyle: 'display:none;',
-							label: 'URL of full image:',
-							setup: function(type, element) {
-								if (type==IMAGE) {
-									var expand_url = element.data('expandable-url');
-									if (expand_url) {
-										this.setValue(expand_url);
-
-										var expand_type = this.getDialog().getContentElement('advanced', 'dive_expandable_choices');
-										if (expand_type.getValue() == 'dive_expand_url') {
-											this.getElement().show();
-										}
-									}
-								}
-							},
-							commit: function(type, element) {
-								if (type == IMAGE && (this.getValue() || this.isChanged())) {
-									element.data('expandable-url', this.getValue());
-								}
-							}
 						},
 						{ id: 'dive_id',
 							type: 'text',
